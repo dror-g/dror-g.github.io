@@ -1,1 +1,78 @@
-ehlo
+<!DOCTYPE html>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html"; charset="utf-8">
+<html>
+<body>
+
+<p dir="rtl">Click the button to replace "Microsoft" with "W3Schools" in the paragraph below:</p>
+
+<input type="text" id="myText" value="Some text...">
+<p id="demo1">Visit Microsoft!</p>
+
+<button onclick="myFunction()">Try it</button>
+
+<p id="demo"></p>
+
+
+<a class="facebook" target="_blank" onclick="return !window.open(this.href, 'Facebook', 'width=640,height=300')" href="http://www.facebook.com/sharer/sharer.php?u=waka.com&t=waaweawea">Facebook</a>
+
+<button onclick="openFbPopUp()">FB</button>
+
+<script>
+
+
+function openFbPopUp() {
+    var fburl = '';
+    var fbimgurl = 'http://';
+    var fbtitle = 'Your title';
+    var fbsummary = "your description";
+    var sharerURL = "http://www.facebook.com/sharer/sharer.php?s=100&p[url]=" + encodeURI(fburl) + "&p[images][0]=" + encodeURI(fbimgurl) + "&p[title]=" + encodeURI(fbtitle) + "&p[summary]=" + encodeURI(fbsummary);
+    window.open(
+      sharerURL,
+      'facebook-share-dialog', 
+      'width=626,height=436'); 
+    return  false;
+}
+
+
+function myFunction() {
+//<a title="send to Facebook" href="http://www.facebook.com/sharer.php?s=100&p[title]=YOUR_TITLE&p[summary]=YOUR_SUMMARY&p[url]=YOUR_URL&p[images][0]=YOUR_IMAGE_TO_SHARE_OBJECT" target="_blank">
+//<a title="send to Facebook" href="http://www.facebook.com/sharer.php?s=100&pA title=YOUR_TITLE&pTest Summary=YOUR_SUMMARY&p127.0.0.1=YOUR_URL&pwaka.gif[0]=waka.gif" target="_blank">
+//  <span>
+//    <img width="14" height="14" src="'icons/fb.gif" alt="Facebook" /> Facebook 
+//  </span>
+//</a>
+ 
+//<a href="http://www.facebook.com/sharer.php?s=100
+//&p[url]=http://ar.zu.my
+//&p[images][0]=http://www.gravatar.com/avatar/2f8ec4a9ad7a39534f764d749e001046.png
+//&p[title]=Rock on Arzumy!
+//&p[summary]=In this blog, Arzumy will teach you how to rock!>Customized Share"</a>
+//<a class="facebook" target="_blank" onclick="return !window.open(this.href, 'Facebook', 'width=640,height=300')" href="http://www.facebook.com/sharer/sharer.php?u=waka.com">Facebook</a>
+   //var str = document.getElementById("fname").innerHTML; 
+    
+    var str = document.getElementById("myText").value;
+    //var x = str.replace(/ערבי/g, "יהודי");
+    //x = str.replace(/יהודי/g, "גרמני");
+    //document.getElementById("demo").innerHTML = x;
+//var mapObj = {cat:"dog",dog:"goat",goat:"cat"};
+//var mapObj = {יהודי:"גרמני",ערבי:"יהודי",goat:"cat"};
+var mapObj = {
+	יהודי:"גרמני",
+	ערבי:"יהודי",
+	goat:"cat"
+};
+
+var re = new RegExp(Object.keys(mapObj).join("|"),"gi");
+str = str.replace(re, function(matched){
+  return mapObj[matched];
+});    
+ document.getElementById("demo").innerHTML = str;
+
+
+////document.getElementById("demo1").innerHTML = res;
+}
+</script>
+
+</body>
+</html>
+

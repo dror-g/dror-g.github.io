@@ -11,6 +11,7 @@
 <button onclick="myFunction()">Try it</button>
 
 <p id="demo"></p>
+<p id="demo2"></p>
 
 
 <a class="facebook" target="_blank" onclick="return !window.open(this.href, 'Facebook', 'width=640,height=300')" href="http://www.facebook.com/sharer/sharer.php?u=waka.com&t=waaweawea">Facebook</a>
@@ -32,6 +33,16 @@ function openFbPopUp() {
       'width=626,height=436'); 
     return  false;
 }
+
+function getParameterByName(name) {
+    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+        results = regex.exec(location.search);
+    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+}
+
+var prodId = getParameterByName('prodId');
+ document.getElementById("demo2").innerHTML = prodId;
 
 
 function myFunction() {

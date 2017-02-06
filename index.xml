@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Muzings</title>
+    <link>https://dror-g.github.io/index.xml</link>
+    <description>Recent content on Muzings</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 06 Feb 2017 14:26:09 +0000</lastBuildDate>
+    <atom:link href="https://dror-g.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>ansible quickstart</title>
+      <link>https://dror-g.github.io/post/ansible-quickstart/</link>
+      <pubDate>Mon, 06 Feb 2017 14:26:09 +0000</pubDate>
+      
+      <guid>https://dror-g.github.io/post/ansible-quickstart/</guid>
+      <description>
+
+&lt;h1 id=&#34;ansible&#34;&gt;Ansible&lt;/h1&gt;
+
+&lt;p&gt;&lt;strong&gt;Ansible&lt;/strong&gt;, written in Python, performs &lt;strong&gt;tasks&lt;/strong&gt; on remote target servers via SSH.&lt;br /&gt;
+&lt;strong&gt;tasks&lt;/strong&gt; are procedurally defined in a &lt;strong&gt;playbook&lt;/strong&gt;, and can also be bundled as a &lt;strong&gt;role&lt;/strong&gt;.&lt;br /&gt;
+Target hosts are defined and grouped in an &lt;strong&gt;inventory&lt;/strong&gt;.&lt;br /&gt;
+&lt;a href=&#34;https://galaxy.ansible.com/list#/roles&#34;&gt;Ansible Galaxy&lt;/a&gt; offers a wide selection of pre-created &lt;strong&gt;roles&lt;/strong&gt; which deploy applications on target servers.&lt;/p&gt;
+
+&lt;h2 id=&#34;install&#34;&gt;Install&lt;/h2&gt;
+
+&lt;p&gt;Ansible is pretty simple to install.
+I personally suggest following the &lt;a href=&#34;http://docs.ansible.com/ansible/intro_installation.html#getting-ansible&#34;&gt;official guide&lt;/a&gt; to get the latest version (2.2), paying special attention to the setup of &lt;strong&gt;ssh-agent&lt;/strong&gt;, as passwordless-ssh to the target hosts is required.&lt;br /&gt;
+But it may be even quicker to
+use the ditribution-provided packages (&lt;code&gt;apt-get|yum install ansible&lt;/code&gt;) or the Python package manager (&lt;code&gt;pip install Ansible&lt;/code&gt;).&lt;/p&gt;
+
+&lt;h2 id=&#34;simple-role-deployment-redis&#34;&gt;Simple Role deployment - Redis&lt;/h2&gt;
+
+&lt;h3 id=&#34;preparations&#34;&gt;Preparations&lt;/h3&gt;
+
+&lt;p&gt;Now that we have Ansible installed we can put it to good use right away using &lt;a href=&#34;https://galaxy.ansible.com/DavidWittman/redis/&#34;&gt;David Wittman&amp;rsquo;s superb Redis role&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;First, pull and install the Redis role locally:&lt;br /&gt;
+    $ ansible-galaxy install DavidWittman.redis&lt;/p&gt;
+
+&lt;p&gt;To deploy said role we need an &lt;strong&gt;inventory&lt;/strong&gt; and a &lt;strong&gt;playbook&lt;/strong&gt;.&lt;br /&gt;
+In your working directory, create a &lt;code&gt;hosts&lt;/code&gt; file to act as our inventory-&lt;br /&gt;
+/home/dror/redis/hosts:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[my-redis]
+192.168.1.101
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;As you can see we &amp;ldquo;group&amp;rdquo; servers with the square brackets.&lt;br /&gt;
+We can assign multiple servers to one group or further divide our environment into role-specific groups (web-servers, dbs etc..).&lt;/p&gt;
+
+&lt;p&gt;Next, we will create the playbook which will define the actions/roles to be applied and to which servers-&lt;br /&gt;
+/home/dror/redis/redis_playbook.yml:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;---
+- hosts: my-redis
+  become: true
+  roles:
+    - DavidWittman.redis
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;specifiying &lt;code&gt;become: true&lt;/code&gt; will cause Ansible to execute the following task/role with &lt;code&gt;sudo&lt;/code&gt; on the target server.&lt;/p&gt;
+
+&lt;h3 id=&#34;execution&#34;&gt;Execution&lt;/h3&gt;
+
+&lt;p&gt;To execute our playbook we use the following command, Where &lt;code&gt;-i&lt;/code&gt; specifies our inventory file:&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;ansible-playbook -i hosts redis_playbook.yml&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;And that&amp;rsquo;s it! you should be seeing the task executed in order per inventory host.&lt;br /&gt;
+If you get any errors try running &lt;code&gt;ansible-playbook&lt;/code&gt; with the -vvv flag for debug output.&lt;br /&gt;
+Most problems are caused by ssh authentication problems and user permissions (hence the &lt;code&gt;become&lt;/code&gt; parameter).&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

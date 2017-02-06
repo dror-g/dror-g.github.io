@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="generator" content="Hugo 0.18.1" />
+
+  <title>ansible quickstart &middot; Muzings</title>
+
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/pure-min.css">
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-min.css">
+  <!--<![endif]-->
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/css/side-menu-old-ie.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+  <link rel="stylesheet" href="/css/side-menu.css">
+  <!--<![endif]-->
+
+  <link rel="stylesheet" href="/css/blackburn.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
+
+  
+  
+
+  
+
+  <link rel="shortcut icon" href="https://dror-g.github.io/img/favicon.ico" type="image/x-icon" />
+
+  
+  
+
+</head>
+
+
+<body>
+<div id="layout">
+
+  
+<a href="#menu" id="menuLink" class="menu-link">
+  
+  <span></span>
+</a>
+<div id="menu">
+
+  
+
+  <div class="pure-menu">
+    <ul class="pure-menu-list">
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/"><i class='fa fa-home fa-fw'></i>Home</a>
+      
+        </li>
+      
+      
+        <li class="pure-menu-item">
+          <a class="pure-menu-link" href="/post/"><i class='fa fa-list fa-fw'></i>Posts</a>
+      
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="pure-menu social">
+  <ul class="pure-menu-list">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+  </ul>
+</div>
+
+
+  <div>
+  <div class="small-print">
+    <small></small>
+  </div>
+  <div class="small-print">
+    <small>Built with&nbsp;<a href="https://gohugo.io/" target="_blank">Hugo</a></small>
+    <small>Theme&nbsp;<a href="https://github.com/yoshiharuyamashita/blackburn" target="_blank">Blackburn</a></small>
+  </div>
+</div>
+
+</div>
+
+
+  <div id="main">
+
+
+<div class="header">
+  <h1>ansible quickstart</h1>
+  <h2></h2>
+</div>
+<div class="content">
+
+  <div class="post-meta">
+
+  <div>
+    <i class="fa fa-calendar fa-fw"></i>
+    <time>06 Feb 2017, 14:26</time>
+  </div>
+
+  
+
+  
+
+  
+
+</div>
+
+  
+
+<h1 id="ansible">Ansible</h1>
+
+<p><strong>Ansible</strong>, written in Python, performs <strong>tasks</strong> on remote target servers via SSH.<br />
+<strong>tasks</strong> are procedurally defined in a <strong>playbook</strong>, and can also be bundled as a <strong>role</strong>.<br />
+Target hosts are defined and grouped in an <strong>inventory</strong>.<br />
+<a href="https://galaxy.ansible.com/list#/roles">Ansible Galaxy</a> offers a wide selection of pre-created <strong>roles</strong> which deploy applications on target servers.</p>
+
+<h2 id="install">Install</h2>
+
+<p>Ansible is pretty simple to install.
+I personally suggest following the <a href="http://docs.ansible.com/ansible/intro_installation.html#getting-ansible">official guide</a> to get the latest version (2.2), paying special attention to the setup of <strong>ssh-agent</strong>, as passwordless-ssh to the target hosts is required.<br />
+But it may be even quicker to
+use the ditribution-provided packages (<code>apt-get|yum install ansible</code>) or the Python package manager (<code>pip install Ansible</code>).</p>
+
+<h2 id="simple-role-deployment-redis">Simple Role deployment - Redis</h2>
+
+<h3 id="preparations">Preparations</h3>
+
+<p>Now that we have Ansible installed we can put it to good use right away using <a href="https://galaxy.ansible.com/DavidWittman/redis/">David Wittman&rsquo;s superb Redis role</a>.</p>
+
+<p>First, pull and install the Redis role locally:<br />
+    $ ansible-galaxy install DavidWittman.redis</p>
+
+<p>To deploy said role we need an <strong>inventory</strong> and a <strong>playbook</strong>.<br />
+In your working directory, create a <code>hosts</code> file to act as our inventory-<br />
+/home/dror/redis/hosts:</p>
+
+<pre><code>[my-redis]
+192.168.1.101
+</code></pre>
+
+<p>As you can see we &ldquo;group&rdquo; servers with the square brackets.<br />
+We can assign multiple servers to one group or further divide our environment into role-specific groups (web-servers, dbs etc..).</p>
+
+<p>Next, we will create the playbook which will define the actions/roles to be applied and to which servers-<br />
+/home/dror/redis/redis_playbook.yml:</p>
+
+<pre><code>---
+- hosts: my-redis
+  become: true
+  roles:
+    - DavidWittman.redis
+</code></pre>
+
+<p>specifiying <code>become: true</code> will cause Ansible to execute the following task/role with <code>sudo</code> on the target server.</p>
+
+<h3 id="execution">Execution</h3>
+
+<p>To execute our playbook we use the following command, Where <code>-i</code> specifies our inventory file:</p>
+
+<p><code>ansible-playbook -i hosts redis_playbook.yml</code></p>
+
+<p>And that&rsquo;s it! you should be seeing the task executed in order per inventory host.<br />
+If you get any errors try running <code>ansible-playbook</code> with the -vvv flag for debug output.<br />
+Most problems are caused by ssh authentication problems and user permissions (hence the <code>become</code> parameter).</p>
+
+
+  
+<div class="prev-next-post pure-g">
+  <div class="pure-u-1-24" style="text-align: left;">
+    
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-2-24">
+    &nbsp;
+  </div>
+  <div class="pure-u-10-24">
+    
+  </div>
+  <div class="pure-u-1-24" style="text-align: right;">
+    
+  </div>
+</div>
+
+
+
+  
+
+</div>
+
+</div>
+</div>
+<script src="https://dror-g.github.io/js/ui.js"></script>
+
+
+
+
+</body>
+</html>
+

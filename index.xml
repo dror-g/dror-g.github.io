@@ -29,7 +29,7 @@ Target hosts are defined and grouped in an &lt;strong&gt;inventory&lt;/strong&gt
 &lt;p&gt;Ansible is pretty simple to install.
 I personally suggest following the &lt;a href=&#34;http://docs.ansible.com/ansible/intro_installation.html#getting-ansible&#34;&gt;official guide&lt;/a&gt; to get the latest version (2.2), paying special attention to the setup of &lt;strong&gt;ssh-agent&lt;/strong&gt;, as passwordless-ssh to the target hosts is required.&lt;br /&gt;
 But it may be even quicker to
-use the ditribution-provided packages (&lt;code&gt;apt-get|yum install ansible&lt;/code&gt;) or the Python package manager (&lt;code&gt;pip install Ansible&lt;/code&gt;).&lt;/p&gt;
+use the distribution-provided packages (&lt;code&gt;apt-get|yum install ansible&lt;/code&gt;) or the Python package manager (&lt;code&gt;pip install Ansible&lt;/code&gt;).&lt;/p&gt;
 
 &lt;h2 id=&#34;simple-role-deployment-redis&#34;&gt;Simple Role deployment - Redis&lt;/h2&gt;
 
